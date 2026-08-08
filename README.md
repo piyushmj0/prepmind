@@ -1,5 +1,7 @@
 # PrepMind
 
+**Live Demo:** [https://prepmind2001.netlify.app](https://prepmind2001.netlify.app)
+
 PrepMind is a full-stack AI-powered interview preparation application. It uses the Gemini API to generate personalized interview questions and a preparation plan based on a user's resume and target job description.
 
 ## Tech Stack
