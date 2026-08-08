@@ -10,6 +10,56 @@ PrepMind is a full-stack AI-powered interview preparation application. It uses t
 
 ---
 
+## System Architecture
+
+```mermaid
+flowchart TD
+    %% Define styles
+    classDef frontend fill:#3e3e3e,stroke:#c77dff,stroke-width:2px,color:#fff;
+    classDef backend fill:#2c2c2c,stroke:#38ef7d,stroke-width:2px,color:#fff;
+    classDef database fill:#1a1a1a,stroke:#fca311,stroke-width:2px,color:#fff;
+    classDef external fill:#4a4e69,stroke:#ff5e62,stroke-width:2px,color:#fff;
+
+    %% Nodes
+    User(("User 🧑‍💻"))
+    
+    subgraph Client [Frontend - React/Vite]
+        UI["React UI (Dashboard, Auth, Landing)"]:::frontend
+        API_Service["Axios Interceptors & Services"]:::frontend
+    end
+    
+    subgraph Server [Backend - Node.js/Express]
+        Router["Express Routes"]:::backend
+        Auth["Auth Controller (JWT & OTP)"]:::backend
+        AI["AI Controller (Multer + PDF Parse)"]:::backend
+    end
+    
+    subgraph Data [Data Layer]
+        DB[("MongoDB Database")]:::database
+    end
+    
+    subgraph External [External APIs]
+        Gemini["Google Gemini Flash 2.0"]:::external
+        SMTP["Email Provider (Ethereal SMTP)"]:::external
+    end
+
+    %% Relationships
+    User -- "Interacts" --> UI
+    UI -- "State & Logic" --> API_Service
+    API_Service -- "REST API Calls\n(Cookies/FormData)" --> Router
+    
+    Router -- "/api/auth/*" --> Auth
+    Router -- "/api/ai/*" --> AI
+    
+    Auth -- "Read/Write Users\n& Blacklist" --> DB
+    AI -- "Save Interview Reports" --> DB
+    
+    Auth -- "Send OTP" --> SMTP
+    AI -- "Generate Questions" --> Gemini
+```
+
+---
+
 ## Getting Started
 
 Follow these instructions to run the project locally.
