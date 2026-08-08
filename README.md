@@ -40,7 +40,7 @@ flowchart TD
     
     subgraph External [External APIs]
         Gemini["Google Gemini Flash 2.0"]:::external
-        SMTP["Email Provider (Ethereal SMTP)"]:::external
+        SMTP["Email Provider (Gmail SMTP)"]:::external
     end
 
     %% Relationships
@@ -76,23 +76,27 @@ cd prepmind
 \`\`\`
 
 ### 2. Backend Setup
-\`\`\`bash
+```bash
 cd backend
 npm install
-\`\`\`
+```
 
 Create a `.env` file in the `backend` folder based on the `.env.example`:
-\`\`\`env
+```env
 PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_super_secret_jwt_key
 GOOGLE_GENAI_API_KEY=your_gemini_api_key
-\`\`\`
+EMAIL_USER=your_gmail_address@gmail.com
+EMAIL_PASS=your_gmail_app_password
+```
+
+> **Note on Gmail SMTP**: To use your Gmail account for sending OTPs, you must enable 2-Step Verification on your Google Account and generate an **App Password**. Use that 16-character App Password for `EMAIL_PASS`, not your regular login password.
 
 Start the backend development server:
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 The backend will run on `http://localhost:3000`.
 
 ### 3. Frontend Setup
@@ -129,3 +133,4 @@ The frontend will run on `http://localhost:5173`.
 - **Frontend**: Can be easily deployed to [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/). Don't forget to set the `VITE_API_URL` environment variable.
 - **Backend**: Can be deployed to [Render](https://render.com/), [Railway](https://railway.app/), or [Heroku](https://www.heroku.com/). Ensure you configure the environment variables correctly.
 - **Database**: MongoDB Atlas is recommended for a free, hosted database solution.
+

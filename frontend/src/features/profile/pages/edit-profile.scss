@@ -71,6 +71,24 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .error-message {
+            color: #ff5e62;
+            background-color: rgba(255, 94, 98, 0.1);
+            border: 1px solid rgba(255, 94, 98, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-message {
+            color: #38ef7d;
+            background-color: rgba(56, 239, 125, 0.1);
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
         .user-info {
             text-align: center;
             margin-bottom: 3rem;
@@ -167,6 +185,108 @@
         }
 
         .password-section {
+            margin-top: 1.5rem;
+            
+            .change-password-btn {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: #fff;
+                padding: 0.6rem 1.2rem;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-weight: 500;
+                font-size: 0.95rem;
+                
+                &:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-color: rgba(199, 125, 255, 0.5);
+                }
+            }
+
+            .password-edit-form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                background: rgba(0, 0, 0, 0.2);
+                padding: 1.5rem;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+
+                .otp-info-text {
+                    color: #ccc;
+                    margin-bottom: 1rem;
+                    font-size: 0.95rem;
+                }
+
+                .otp-request, .password-update-fields {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+                    gap: 1rem;
+                }
+
+                .auth-input {
+                    background-color: rgba(0, 0, 0, 0.4);
+                    border: 1px solid rgba(199, 125, 255, 0.3);
+                    color: whitesmoke;
+                    padding: 0.8rem 1rem;
+                    border-radius: 8px;
+                    outline: none;
+                    font-size: 1rem;
+                    text-align: center;
+                    width: 100%;
+                    max-width: 300px;
+                    transition: border-color 0.2s;
+
+                    &:focus {
+                        border-color: #c77dff;
+                    }
+                }
+
+                .otp-actions, .password-actions {
+                    display: flex;
+                    gap: 1rem;
+                    margin-top: 0.5rem;
+                    
+                    button {
+                        padding: 0.6rem 1.5rem;
+                        border-radius: 50px;
+                        border: none;
+                        font-weight: 600;
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                        transition: all 0.2s;
+                        
+                        &:disabled {
+                            opacity: 0.5;
+                            cursor: not-allowed;
+                        }
+                    }
+
+                    .primary-btn, .save-btn {
+                        background: linear-gradient(90deg, #7b2cbf, #c77dff);
+                        color: white;
+                        
+                        &:hover:not(:disabled) {
+                            transform: translateY(-2px);
+                            box-shadow: 0 4px 15px rgba(199, 125, 255, 0.4);
+                        }
+                    }
+
+                    .cancel-btn {
+                        background: rgba(255, 255, 255, 0.1);
+                        color: white;
+                        
+                        &:hover:not(:disabled) {
+                            background: rgba(255, 255, 255, 0.2);
+                        }
+                    }
+                }
+            }
+
             h3 {
                 margin-bottom: 1.5rem;
                 font-weight: 600;
@@ -176,75 +296,6 @@
                 color: #ccc;
                 line-height: 1.6;
                 margin-bottom: 1.5rem;
-            }
-
-            .error-message {
-                color: #ff5e62;
-                background-color: rgba(255, 94, 98, 0.1);
-                border: 1px solid rgba(255, 94, 98, 0.3);
-                padding: 1rem;
-                border-radius: 8px;
-                margin-bottom: 1.5rem;
-            }
-
-            .success-message {
-                color: #38ef7d;
-                background-color: rgba(56, 239, 125, 0.1);
-                border: 1px solid rgba(56, 239, 125, 0.3);
-                padding: 1rem;
-                border-radius: 8px;
-                margin-bottom: 1.5rem;
-            }
-
-            .input-group {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-                margin-bottom: 1.5rem;
-
-                label {
-                    font-weight: 500;
-                    color: #ccc;
-                }
-
-                input {
-                    background-color: rgba(0, 0, 0, 0.2);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    color: whitesmoke;
-                    padding: 1rem;
-                    border-radius: 8px;
-                    outline: none;
-                    transition: border-color 0.2s;
-
-                    &:focus {
-                        border-color: #c77dff;
-                    }
-                }
-            }
-
-            .primary-button {
-                width: 100%;
-                background: linear-gradient(90deg, #7b2cbf, #c77dff);
-                color: #fff;
-                border: none;
-                padding: 1rem;
-                border-radius: 50px;
-                font-size: 1.1rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: transform 0.2s, box-shadow 0.2s;
-
-                &:hover:not(:disabled) {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 15px rgba(199, 125, 255, 0.4);
-                }
-                
-                &:disabled {
-                    background: #555;
-                    cursor: not-allowed;
-                    box-shadow: none;
-                    transform: none;
-                }
             }
         }
     }

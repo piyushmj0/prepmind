@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { sendOtp, updatePassword, updateName } from '../../auth/services/auth.api';
+import { updateName, sendOtp, updatePassword } from '../../auth/services/auth.api';
 import './edit-profile.scss';
 
 export const EditProfile = () => {
     const { user, handleLogout } = useAuth();
     const navigate = useNavigate();
 
-    const [step, setStep] = useState(1);
-    const [otp, setOtp] = useState('');
-    const [newPassword, setNewPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameInput, setNameInput] = useState('');
+
+    const [isEditingPassword, setIsEditingPassword] = useState(false);
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpInput, setOtpInput] = useState('');
+    const [newPasswordInput, setNewPasswordInput] = useState('');
 
     useEffect(() => {
         if (user) {
@@ -54,7 +56,7 @@ export const EditProfile = () => {
         try {
             const res = await sendOtp();
             setMessage(res.message || 'OTP sent to your email.');
-            setStep(2);
+            setOtpSent(true);
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to send OTP.');
         } finally {
@@ -62,17 +64,22 @@ export const EditProfile = () => {
         }
     };
 
-    const handleUpdatePassword = async (e) => {
-        e.preventDefault();
+    const handleUpdatePassword = async () => {
+        if (!otpInput || !newPasswordInput) {
+            setError('Please provide OTP and new password.');
+            return;
+        }
+
         setLoading(true);
         setError('');
         setMessage('');
         try {
-            const res = await updatePassword(otp, newPassword);
+            const res = await updatePassword(otpInput, newPasswordInput);
             setMessage(res.message || 'Password updated successfully!');
-            setTimeout(() => {
-                navigate('/dashboard');
-            }, 2000);
+            setIsEditingPassword(false);
+            setOtpSent(false);
+            setOtpInput('');
+            setNewPasswordInput('');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to update password.');
         } finally {
@@ -94,6 +101,9 @@ export const EditProfile = () => {
             <div className="profile-content">
                 <div className="profile-card">
                     <h2>Edit Profile</h2>
+                    
+                    {error && <div className="error-message">{error}</div>}
+                    {message && <div className="success-message">{message}</div>}
                     
                     <div className="user-info">
                         <div className="avatar-large">👤</div>
@@ -120,52 +130,51 @@ export const EditProfile = () => {
                         )}
                         
                         <p>{user?.email}</p>
-                    </div>
 
-                    <div className="password-section">
-                        <h3>Update Password</h3>
-                        
-                        {error && <div className="error-message">{error}</div>}
-                        {message && <div className="success-message">{message}</div>}
-
-                        {step === 1 && (
-                            <div className="step-one">
-                                <p>To update your password, we need to verify your identity. Click below to receive a One-Time Password (OTP) at your registered email address.</p>
-                                <button className="primary-button" onClick={handleSendOtp} disabled={loading}>
-                                    {loading ? 'Sending...' : 'Send OTP to Email'}
-                                </button>
-                            </div>
-                        )}
-
-                        {step === 2 && (
-                            <form className="step-two" onSubmit={handleUpdatePassword}>
-                                <div className="input-group">
-                                    <label htmlFor="otp">Enter OTP</label>
-                                    <input 
-                                        type="text" 
-                                        id="otp" 
-                                        placeholder="123456" 
-                                        value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
-                                        required 
-                                    />
+                        <div className="password-section">
+                            {isEditingPassword ? (
+                                <div className="password-edit-form">
+                                    {!otpSent ? (
+                                        <div className="otp-request">
+                                            <p className="otp-info-text">To change your password, we need to verify it's you.</p>
+                                            <div className="otp-actions">
+                                                <button className="primary-btn" onClick={handleSendOtp} disabled={loading}>
+                                                    Send OTP to Email
+                                                </button>
+                                                <button className="cancel-btn" onClick={() => setIsEditingPassword(false)} disabled={loading}>
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="password-update-fields">
+                                            <input 
+                                                type="text" 
+                                                placeholder="Enter OTP"
+                                                value={otpInput} 
+                                                onChange={(e) => setOtpInput(e.target.value)}
+                                                className="auth-input"
+                                            />
+                                            <input 
+                                                type="password" 
+                                                placeholder="New Password"
+                                                value={newPasswordInput} 
+                                                onChange={(e) => setNewPasswordInput(e.target.value)}
+                                                className="auth-input"
+                                            />
+                                            <div className="password-actions">
+                                                <button className="save-btn" onClick={handleUpdatePassword} disabled={loading}>Save Password</button>
+                                                <button className="cancel-btn" onClick={() => { setIsEditingPassword(false); setOtpSent(false); }} disabled={loading}>Cancel</button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="input-group">
-                                    <label htmlFor="newPassword">New Password</label>
-                                    <input 
-                                        type="password" 
-                                        id="newPassword" 
-                                        placeholder="Enter new password" 
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                        required 
-                                    />
-                                </div>
-                                <button type="submit" className="primary-button" disabled={loading}>
-                                    {loading ? 'Updating...' : 'Update Password'}
+                            ) : (
+                                <button className="change-password-btn" onClick={() => setIsEditingPassword(true)}>
+                                    Change Password
                                 </button>
-                            </form>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

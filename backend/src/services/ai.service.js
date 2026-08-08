@@ -181,6 +181,7 @@ Job Description: ${payload.jobDescription}`,
 
     return createdReport.toObject()
   } catch (error) {
+    console.error("AI Generation Error:", error);
     try {
       await ensureDatabaseConnection()
       const createdReport = await InterviewReport.create({

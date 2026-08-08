@@ -56,6 +56,19 @@ export async function getMe() {
     }   
 }
 
+
+export async function updateName(username) {
+    try {
+        const response = await api.put('/update-name', {
+            username
+        })
+        return response.data
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 export async function sendOtp() {
     try {
         const response = await api.post('/send-otp')
@@ -77,16 +90,4 @@ export async function updatePassword(otp, newPassword) {
         console.log(error)
         throw error
     }
-}
-
-export async function updateName(username) {
-    try {
-        const response = await api.put('/update-name', {
-            username
-        })
-        return response.data
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-}
+}

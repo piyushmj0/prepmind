@@ -98,20 +98,15 @@ async function getMe(req, res) {
   })      
 }
 
-// Nodemailer config for Ethereal (Fake SMTP for testing)
+// Nodemailer config for Gmail
 const nodemailer = require("nodemailer");
 
-let transporter;
-nodemailer.createTestAccount().then((account) => {
-  transporter = nodemailer.createTransport({
-    host: account.smtp.host,
-    port: account.smtp.port,
-    secure: account.smtp.secure,
-    auth: {
-      user: account.user,
-      pass: account.pass,
-    },
-  });
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 async function sendOtp(req, res) {
@@ -128,15 +123,12 @@ async function sendOtp(req, res) {
     await user.save();
 
     // Send email
-    if (transporter) {
-      const info = await transporter.sendMail({
-        from: '"PrepMind" <noreply@prepmind.com>',
-        to: user.email,
-        subject: "Your Password Reset OTP",
-        text: `Your OTP for password reset is: ${otp}. It is valid for 10 minutes.`,
-      });
-      console.log("OTP Email URL: %s", nodemailer.getTestMessageUrl(info));
-    }
+    await transporter.sendMail({
+      from: `"PrepMind" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: "Your Password Reset OTP",
+      text: `Your OTP for password reset is: ${otp}. It is valid for 10 minutes.`,
+    });
 
     res.status(200).json({ message: "OTP sent successfully" });
   } catch (err) {
