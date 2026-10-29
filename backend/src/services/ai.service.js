@@ -1,44 +1,79 @@
 const { GoogleGenAI } = require("@google/genai")
 const mongoose = require("mongoose")
-const { z } = require("zod")
-const { zodToJsonSchema } = require("zod-to-json-schema")
 const InterviewReport = require("../models/interviewReport.model")
 const connectDB = require("../config/database")
 
-const ai = process.env.GOOGLE_GENAI_API_KEY
-  ? new GoogleGenAI({ apiKey: process.env.GOOGLE_GENAI_API_KEY })
-  : null
+function getGenAIClient() {
+  const apiKey = process.env.GOOGLE_GENAI_API_KEY
+  if (!apiKey || !apiKey.trim()) {
+    return null
+  }
+  return new GoogleGenAI({ apiKey: apiKey.trim() })
+}
 
-const interviewReportSchema = z.object({
-  matchScore: z.number().int().min(0).max(100),
-  technicalQuestions: z.array(
-    z.object({
-      question: z.string(),
-      intention: z.string(),
-      answer: z.string(),
-    })
-  ).default([]),
-  behavioralQuestions: z.array(
-    z.object({
-      question: z.string(),
-      intention: z.string(),
-      answer: z.string(),
-    })
-  ).default([]),
-  skillGaps: z.array(
-    z.object({
-      skill: z.string(),
-      severity: z.enum(["low", "medium", "high"]),
-    })
-  ).default([]),
-  preparationPlan: z.array(
-    z.object({
-      day: z.number().int().positive(),
-      focus: z.string(),
-      tasks: z.array(z.string()).default([]),
-    })
-  ).default([]),
-})
+const interviewReportJsonSchema = {
+  type: "object",
+  properties: {
+    matchScore: { type: "integer" },
+    technicalQuestions: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          question: { type: "string" },
+          intention: { type: "string" },
+          answer: { type: "string" },
+        },
+        required: ["question", "intention", "answer"],
+      },
+    },
+    behavioralQuestions: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          question: { type: "string" },
+          intention: { type: "string" },
+          answer: { type: "string" },
+        },
+        required: ["question", "intention", "answer"],
+      },
+    },
+    skillGaps: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          skill: { type: "string" },
+          severity: { type: "string", enum: ["low", "medium", "high"] },
+        },
+        required: ["skill", "severity"],
+      },
+    },
+    preparationPlan: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          day: { type: "integer" },
+          focus: { type: "string" },
+          tasks: {
+            type: "array",
+            items: { type: "string" },
+          },
+        },
+        required: ["day", "focus", "tasks"],
+      },
+    },
+  },
+  required: [
+    "matchScore",
+    "technicalQuestions",
+    "behavioralQuestions",
+    "skillGaps",
+    "preparationPlan",
+  ],
+}
 
 function normalizeReport(raw) {
   if (!raw || typeof raw !== "object") {
@@ -136,8 +171,9 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
   }
 
   const fallbackReport = buildFallbackReport(payload)
+  const ai = getGenAIClient()
 
-  if (!process.env.GOOGLE_GENAI_API_KEY || !ai) {
+  if (!ai) {
     try {
       await ensureDatabaseConnection()
       const createdReport = await InterviewReport.create({
@@ -156,7 +192,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
   try {
     await ensureDatabaseConnection()
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.5-flash",
       contents: `Generate a structured interview report in JSON only.
 Use the exact fields: matchScore, technicalQuestions, behavioralQuestions, skillGaps, preparationPlan.
 Resume: ${payload.resume}
@@ -165,7 +201,7 @@ Job Description: ${payload.jobDescription}`,
       config: {
         temperature: 0,
         responseMimeType: "application/json",
-        responseSchema: zodToJsonSchema(interviewReportSchema),
+        responseSchema: interviewReportJsonSchema,
       },
     })
 
