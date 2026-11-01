@@ -2,6 +2,7 @@ const { GoogleGenAI } = require("@google/genai")
 const mongoose = require("mongoose")
 const InterviewReport = require("../models/interviewReport.model")
 const connectDB = require("../config/database")
+const cacheService = require("./cache.service")
 
 function getGenAIClient() {
   const apiKey = process.env.GOOGLE_GENAI_API_KEY
@@ -250,9 +251,20 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
     jobDescription: jobDescription || "",
   }
 
+  // ── 1. Cache lookup ──────────────────────────────────────────────────────
+  const cached = await cacheService.getCachedReport(
+    payload.resume,
+    payload.selfDescription,
+    payload.jobDescription
+  )
+  if (cached) {
+    return cached
+  }
+
   const fallbackReport = buildFallbackReport(payload)
   const ai = getGenAIClient()
 
+  // ── 2. No AI key → save fallback to DB (no cache for fallback) ───────────
   if (!ai) {
     try {
       await ensureDatabaseConnection()
@@ -269,6 +281,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
     }
   }
 
+  // ── 3. Call Gemini ────────────────────────────────────────────────────────
   try {
     await ensureDatabaseConnection()
     const prompt = `You are an expert technical interviewer and career coach.
@@ -316,7 +329,17 @@ ${payload.jobDescription || "Not provided"}`
       ...structuredReport,
     })
 
-    return createdReport.toObject()
+    const reportObject = createdReport.toObject()
+
+    // ── 4. Persist result in Redis cache ──────────────────────────────────
+    await cacheService.setCachedReport(
+      payload.resume,
+      payload.selfDescription,
+      payload.jobDescription,
+      reportObject
+    )
+
+    return reportObject
   } catch (error) {
     console.error("AI Generation Error:", error)
     try {

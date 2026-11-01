@@ -1,39 +1,40 @@
-const {Router} = require("express")
-const authController = require("../controllers/auth.controllers")
-const auathMiddleware = require("../middlewares/auth.middleware")
+const { Router } = require("express")
+const authController  = require("../controllers/auth.controllers")
+const { authUser }    = require("../middlewares/auth.middleware")
+const { authRateLimiter } = require("../middlewares/rateLimiter.middleware")
 
 const authRouter = Router()
 
 /**
  * @route POST /api/auth/register
- * @description register a new user
- * @access Public
+ * @access Public  (rate-limited)
  */
-
-authRouter.post("/register", authController.registerUser)
+authRouter.post("/register", authRateLimiter, authController.registerUser)
 
 /**
  * @route POST /api/auth/login
- * @description login a user
- * @access Public
+ * @access Public  (rate-limited)
  */
-authRouter.post("/login", authController.loginUser)
-
+authRouter.post("/login", authRateLimiter, authController.loginUser)
 
 /**
  * @route GET /api/auth/logout
- * @description logout a user
  * @access Public
  */
 authRouter.get("/logout", authController.logoutUser)
 
+// ── Protected routes ────────────────────────────────────────────────────────
 
-// Protected route to get authenticated user details
-authRouter.get("/get-me", auathMiddleware.authUser, authController.getMe)
+/** @route GET  /api/auth/get-me */
+authRouter.get("/get-me", authUser, authController.getMe)
 
-// Protected routes for password and name update
-authRouter.post("/send-otp", auathMiddleware.authUser, authController.sendOtp)
-authRouter.post("/update-password", auathMiddleware.authUser, authController.updatePassword)
-authRouter.put("/update-name", auathMiddleware.authUser, authController.updateName)
+/** @route POST /api/auth/send-otp */
+authRouter.post("/send-otp", authUser, authController.sendOtp)
+
+/** @route POST /api/auth/update-password */
+authRouter.post("/update-password", authUser, authController.updatePassword)
+
+/** @route PUT  /api/auth/update-name */
+authRouter.put("/update-name", authUser, authController.updateName)
 
 module.exports = authRouter
