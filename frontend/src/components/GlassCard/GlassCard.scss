@@ -1,0 +1,23 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – GlassCard Component
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-glass-card {
+  @include m.glass;
+  padding: var(--pm-space-6);
+  @include m.card-hover;
+
+  &--no-hover {
+    &:hover { transform: none; box-shadow: none; border-color: var(--pm-border); }
+  }
+
+  &--glow {
+    box-shadow: var(--pm-shadow-sm);
+    &:hover { box-shadow: var(--pm-shadow-lg); }
+  }
+
+  &--sm { padding: var(--pm-space-4); }
+  &--lg { padding: var(--pm-space-8); }
+}
+

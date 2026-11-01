@@ -1,0 +1,116 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Keyframe Animations (_animations.scss)
+// ═══════════════════════════════════════════════════════════════
+
+// ── Fade up (page entrance) ─────────────────────────────────
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+// ── Fade in ─────────────────────────────────────────────────
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ── Slide in from left ──────────────────────────────────────
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// ── Slide in from right ─────────────────────────────────────
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// ── Scale in ────────────────────────────────────────────────
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ── Pulse glow ──────────────────────────────────────────────
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 92, 255, 0.2); }
+  50%      { box-shadow: 0 0 40px rgba(124, 92, 255, 0.4); }
+}
+
+// ── Spinner ─────────────────────────────────────────────────
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── Shimmer (skeleton loader) ───────────────────────────────
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+// ── Float (gentle bobbing) ──────────────────────────────────
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+// ── Gradient shift ──────────────────────────────────────────
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// ── Stroke draw (SVG) ───────────────────────────────────────
+@keyframes strokeDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+// ── Score ring fill ─────────────────────────────────────────
+@keyframes ringFill {
+  from { stroke-dashoffset: var(--ring-circumference); }
+  to   { stroke-dashoffset: var(--ring-offset); }
+}
+
+// ── Progress bar ────────────────────────────────────────────
+@keyframes progressIndeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+// ── Reduced-motion: flatten everything ──────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

@@ -1,0 +1,106 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Input Component (Input.scss)
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pm-space-2);
+
+  &__label {
+    font-size: var(--pm-text-sm);
+    font-weight: 600;
+    color: var(--pm-text-2);
+    display: flex;
+    align-items: center;
+    gap: var(--pm-space-2);
+  }
+
+  &__optional {
+    font-weight: 400;
+    color: var(--pm-text-3);
+    font-size: var(--pm-text-xs);
+  }
+
+  &__field {
+    width: 100%;
+    padding: var(--pm-space-3) var(--pm-space-4);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--pm-border);
+    border-radius: var(--pm-radius-xs);
+    color: var(--pm-text);
+    font-size: var(--pm-text-base);
+    line-height: var(--pm-leading-normal);
+    transition: border-color var(--pm-duration-fast) ease,
+                box-shadow var(--pm-duration-fast) ease;
+    outline: none;
+
+    &:focus {
+      border-color: var(--pm-violet);
+      box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.15);
+    }
+
+    &::placeholder { color: var(--pm-text-3); }
+
+    &--error {
+      border-color: var(--pm-danger);
+      &:focus { box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15); }
+    }
+  }
+
+  &__error {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-danger);
+    display: flex;
+    align-items: center;
+    gap: var(--pm-space-1);
+  }
+
+  &__helper {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+  }
+
+  // Textarea variant
+  textarea.pm-input-group__field {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  // Password wrapper
+  &__password-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .pm-input-group__field { padding-right: var(--pm-space-10); }
+
+    .pm-input-group__toggle {
+      position: absolute;
+      right: var(--pm-space-3);
+      background: none;
+      border: none;
+      color: var(--pm-text-3);
+      cursor: pointer;
+      padding: var(--pm-space-1);
+      display: flex;
+      align-items: center;
+      transition: color var(--pm-duration-fast) ease;
+
+      &:hover { color: var(--pm-text); }
+    }
+  }
+
+  // Character count
+  &__char-count {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+    text-align: right;
+
+    &--warn { color: var(--pm-warning); }
+    &--over { color: var(--pm-danger); }
+  }
+}
+

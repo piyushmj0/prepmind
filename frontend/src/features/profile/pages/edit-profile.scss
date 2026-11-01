@@ -1,302 +1,112 @@
-.edit-profile-container {
-    padding: 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+@use '../../../styles/mixins' as m;
+
+.pm-profile {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: var(--pm-space-8) var(--pm-space-6) var(--pm-space-16);
+    @include m.container-padding;
+  }
+
+  &__card {
+    width: 100%;
+    max-width: 640px;
+    @include m.glass;
+    padding: var(--pm-space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-6);
+    animation: fadeUp 0.4s var(--pm-ease-out);
+
+    @include m.md {
+      padding: var(--pm-space-10);
+    }
+  }
+
+  &__top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pm-space-2);
+    color: var(--pm-text-2);
+    font-size: var(--pm-text-sm);
+    text-decoration: none;
+    transition: color var(--pm-duration-fast) ease;
+
+    &:hover { color: var(--pm-text); }
+  }
+
+  &__header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--pm-space-3);
+  }
+
+  &__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--pm-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    font-weight: 700;
     color: #fff;
-    min-height: 100vh;
+    box-shadow: 0 0 24px rgba(124, 92, 255, 0.3);
+  }
 
-    .dashboard-top-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.5rem 2rem;
-        background: rgba(22, 22, 22, 0.8);
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        margin-bottom: 2rem;
+  &__title {
+    font-family: var(--pm-font-heading);
+    font-size: var(--pm-text-2xl);
+    @include m.gradient-text;
+  }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, #7b2cbf, #c77dff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
-        }
+  &__email {
+    color: var(--pm-text-3);
+    font-size: var(--pm-text-sm);
+  }
 
-        .back-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
+  &__section {
+    padding-top: var(--pm-space-6);
+    border-top: 1px solid var(--pm-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-4);
+  }
 
-            &:hover {
-                background: rgba(255, 255, 255, 0.1);
-                border-color: rgba(199, 125, 255, 0.5);
-            }
-        }
-    }
+  &__section-title {
+    font-size: var(--pm-text-lg);
+    font-weight: 600;
+    color: var(--pm-text);
+  }
 
-    .profile-content {
-        display: flex;
-        justify-content: center;
-        padding: 0 2rem 4rem;
-    }
+  &__section-desc {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+  }
 
-    .profile-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        padding: 3rem;
-        border-radius: 16px;
-        width: 100%;
-        max-width: 600px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  &__field-row {
+    display: flex;
+    gap: var(--pm-space-3);
+    align-items: flex-end;
+  }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 700;
-            font-size: 2rem;
-            background: linear-gradient(90deg, #7b2cbf, #e0aaff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .error-message {
-            color: #ff5e62;
-            background-color: rgba(255, 94, 98, 0.1);
-            border: 1px solid rgba(255, 94, 98, 0.3);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .success-message {
-            color: #38ef7d;
-            background-color: rgba(56, 239, 125, 0.1);
-            border: 1px solid rgba(56, 239, 125, 0.3);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .user-info {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-            .avatar-large {
-                font-size: 4rem;
-                background: linear-gradient(135deg, #7b2cbf, #c77dff);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                margin-bottom: 1rem;
-            }
-
-            h3 {
-                font-size: 1.5rem;
-                margin-bottom: 0.25rem;
-            }
-
-            .username-display {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.5rem;
-                font-size: 1.5rem;
-                margin-bottom: 0.25rem;
-
-                .edit-name-icon {
-                    background: none;
-                    border: none;
-                    font-size: 1rem;
-                    cursor: pointer;
-                    opacity: 0.6;
-                    transition: opacity 0.2s;
-                    padding: 0;
-
-                    &:hover {
-                        opacity: 1;
-                    }
-                }
-            }
-
-            .name-edit-form {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 0.5rem;
-                margin-bottom: 0.5rem;
-
-                .name-input {
-                    background-color: rgba(0, 0, 0, 0.2);
-                    border: 1px solid rgba(199, 125, 255, 0.5);
-                    color: whitesmoke;
-                    padding: 0.5rem 1rem;
-                    border-radius: 8px;
-                    outline: none;
-                    font-size: 1.2rem;
-                    text-align: center;
-                    width: 80%;
-
-                    &:focus {
-                        border-color: #c77dff;
-                    }
-                }
-
-                .name-actions {
-                    display: flex;
-                    gap: 0.5rem;
-
-                    button {
-                        padding: 0.4rem 1rem;
-                        border-radius: 50px;
-                        border: none;
-                        font-weight: 600;
-                        cursor: pointer;
-                        font-size: 0.9rem;
-                    }
-
-                    .save-btn {
-                        background: linear-gradient(90deg, #7b2cbf, #c77dff);
-                        color: white;
-                    }
-
-                    .cancel-btn {
-                        background: rgba(255, 255, 255, 0.1);
-                        color: white;
-                    }
-                }
-            }
-
-            p {
-                color: #aaa;
-            }
-        }
-
-        .password-section {
-            margin-top: 1.5rem;
-            
-            .change-password-btn {
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                color: #fff;
-                padding: 0.6rem 1.2rem;
-                border-radius: 50px;
-                cursor: pointer;
-                transition: all 0.2s;
-                font-weight: 500;
-                font-size: 0.95rem;
-                
-                &:hover {
-                    background: rgba(255, 255, 255, 0.1);
-                    border-color: rgba(199, 125, 255, 0.5);
-                }
-            }
-
-            .password-edit-form {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-                background: rgba(0, 0, 0, 0.2);
-                padding: 1.5rem;
-                border-radius: 12px;
-                border: 1px solid rgba(255, 255, 255, 0.05);
-
-                .otp-info-text {
-                    color: #ccc;
-                    margin-bottom: 1rem;
-                    font-size: 0.95rem;
-                }
-
-                .otp-request, .password-update-fields {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    width: 100%;
-                    gap: 1rem;
-                }
-
-                .auth-input {
-                    background-color: rgba(0, 0, 0, 0.4);
-                    border: 1px solid rgba(199, 125, 255, 0.3);
-                    color: whitesmoke;
-                    padding: 0.8rem 1rem;
-                    border-radius: 8px;
-                    outline: none;
-                    font-size: 1rem;
-                    text-align: center;
-                    width: 100%;
-                    max-width: 300px;
-                    transition: border-color 0.2s;
-
-                    &:focus {
-                        border-color: #c77dff;
-                    }
-                }
-
-                .otp-actions, .password-actions {
-                    display: flex;
-                    gap: 1rem;
-                    margin-top: 0.5rem;
-                    
-                    button {
-                        padding: 0.6rem 1.5rem;
-                        border-radius: 50px;
-                        border: none;
-                        font-weight: 600;
-                        cursor: pointer;
-                        font-size: 0.9rem;
-                        transition: all 0.2s;
-                        
-                        &:disabled {
-                            opacity: 0.5;
-                            cursor: not-allowed;
-                        }
-                    }
-
-                    .primary-btn, .save-btn {
-                        background: linear-gradient(90deg, #7b2cbf, #c77dff);
-                        color: white;
-                        
-                        &:hover:not(:disabled) {
-                            transform: translateY(-2px);
-                            box-shadow: 0 4px 15px rgba(199, 125, 255, 0.4);
-                        }
-                    }
-
-                    .cancel-btn {
-                        background: rgba(255, 255, 255, 0.1);
-                        color: white;
-                        
-                        &:hover:not(:disabled) {
-                            background: rgba(255, 255, 255, 0.2);
-                        }
-                    }
-                }
-            }
-
-            h3 {
-                margin-bottom: 1.5rem;
-                font-weight: 600;
-            }
-
-            p {
-                color: #ccc;
-                line-height: 1.6;
-                margin-bottom: 1.5rem;
-            }
-        }
-    }
+  &__actions-row {
+    display: flex;
+    gap: var(--pm-space-3);
+    margin-top: var(--pm-space-2);
+  }
 }

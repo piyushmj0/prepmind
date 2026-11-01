@@ -1,0 +1,142 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – GenerationLoader (AI report generation overlay)
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-gen-loader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--pm-z-overlay);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pm-space-8);
+  background: rgba(11, 13, 23, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: fadeIn var(--pm-duration-normal) ease;
+
+  &--exit {
+    animation: fadeOut var(--pm-duration-normal) ease forwards;
+  }
+
+  // ── Animated orb ──────────────────────────────────────────
+  &__orb-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+  }
+
+  &__orb {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%,
+      rgba(124, 92, 255, 0.4) 0%,
+      rgba(59, 130, 246, 0.2) 40%,
+      rgba(34, 211, 238, 0.1) 70%,
+      transparent 100%);
+    border: 1px solid rgba(124, 92, 255, 0.3);
+    animation: orbPulse 2.5s ease-in-out infinite, spin 8s linear infinite;
+    box-shadow:
+      0 0 40px rgba(124, 92, 255, 0.15),
+      0 0 80px rgba(34, 211, 238, 0.08),
+      inset 0 0 40px rgba(124, 92, 255, 0.1);
+  }
+
+  // Orbiting particles
+  &__orbit {
+    position: absolute;
+    inset: -20px;
+    animation: spin 6s linear infinite;
+
+    &:nth-child(2) { animation-duration: 8s; animation-direction: reverse; }
+    &:nth-child(3) { animation-duration: 10s; }
+  }
+
+  &__particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--pm-violet);
+    box-shadow: 0 0 8px var(--pm-violet);
+
+    &:nth-child(1) { top: 0; left: 50%; background: var(--pm-cyan); box-shadow: 0 0 8px var(--pm-cyan); }
+    &:nth-child(2) { bottom: 0; right: 20%; }
+    &:nth-child(3) { top: 30%; right: 0; background: var(--pm-blue); box-shadow: 0 0 8px var(--pm-blue); }
+  }
+
+  // ── Text area ─────────────────────────────────────────────
+  &__text {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-3);
+  }
+
+  &__title {
+    font-family: var(--pm-font-heading);
+    font-size: var(--pm-text-2xl);
+    font-weight: 700;
+    color: var(--pm-text);
+  }
+
+  &__step {
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-2);
+    min-height: 1.4em;
+    transition: opacity var(--pm-duration-fast) ease;
+  }
+
+  // ── Progress bar ──────────────────────────────────────────
+  &__progress {
+    width: min(320px, 80vw);
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: var(--pm-gradient-h);
+    border-radius: 2px;
+    transition: width 0.5s var(--pm-ease-out);
+  }
+
+  // ── Tip text ──────────────────────────────────────────────
+  &__tip {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+    max-width: 360px;
+    text-align: center;
+    line-height: var(--pm-leading-relaxed);
+    min-height: 2.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // ── Cancel button ─────────────────────────────────────────
+  &__cancel {
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-3);
+    padding: var(--pm-space-2) var(--pm-space-4);
+    border-radius: var(--pm-radius-full);
+    transition: color var(--pm-duration-fast) ease;
+
+    &:hover { color: var(--pm-danger); }
+  }
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+

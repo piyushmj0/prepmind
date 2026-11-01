@@ -1,0 +1,62 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – HeroScene (3D Three.js scene for landing page)
+// ═══════════════════════════════════════════════════════════════
+
+.pm-hero-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+
+  &__canvas-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  // Gradient placeholder while 3D loads
+  &__placeholder {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 50%,
+      rgba(124, 92, 255, 0.1) 0%,
+      rgba(34, 211, 238, 0.04) 40%,
+      transparent 70%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // CSS fallback orb for no-WebGL or reduced-motion
+  &__css-orb {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 40% 40%,
+      rgba(124, 92, 255, 0.3) 0%,
+      rgba(59, 130, 246, 0.15) 40%,
+      rgba(34, 211, 238, 0.08) 70%,
+      transparent 100%
+    );
+    border: 1px solid rgba(124, 92, 255, 0.2);
+    box-shadow:
+      0 0 60px rgba(124, 92, 255, 0.15),
+      0 0 120px rgba(34, 211, 238, 0.08),
+      inset 0 0 60px rgba(124, 92, 255, 0.08);
+    animation: orbFloat 6s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-12px) scale(1.03); }
+}
+

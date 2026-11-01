@@ -1,0 +1,168 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Auth Layout Styles
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-auth {
+  min-height: 100vh;
+  display: flex;
+
+  // ── Brand panel (desktop left) ────────────────────────────
+  &__brand {
+    display: none;
+    flex: 1;
+    background: var(--pm-bg);
+    background-image:
+      radial-gradient(ellipse 60% 50% at 30% 50%, rgba(124, 92, 255, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 70% 70%, rgba(34, 211, 238, 0.06) 0%, transparent 50%);
+    padding: var(--pm-space-12);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: var(--pm-space-8);
+
+    @include m.lg { display: flex; }
+  }
+
+  &__brand-logo {
+    font-family: var(--pm-font-heading);
+    font-size: var(--pm-text-3xl);
+    font-weight: 800;
+    @include m.gradient-text;
+  }
+
+  &__brand-tagline {
+    font-size: var(--pm-text-2xl);
+    font-weight: 700;
+    color: var(--pm-text);
+    text-align: center;
+    max-width: 360px;
+    line-height: var(--pm-leading-snug);
+  }
+
+  &__brand-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-4);
+    max-width: 320px;
+  }
+
+  &__brand-item {
+    display: flex;
+    align-items: center;
+    gap: var(--pm-space-3);
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-2);
+
+    svg { flex-shrink: 0; color: var(--pm-success); }
+  }
+
+  // CSS animated orb for brand panel
+  &__brand-orb {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 40% 40%,
+      rgba(124, 92, 255, 0.25) 0%,
+      rgba(59, 130, 246, 0.12) 40%,
+      rgba(34, 211, 238, 0.06) 70%,
+      transparent 100%
+    );
+    border: 1px solid rgba(124, 92, 255, 0.15);
+    box-shadow: 0 0 40px rgba(124, 92, 255, 0.1);
+    animation: orbFloat 6s ease-in-out infinite;
+    margin-bottom: var(--pm-space-8);
+
+    @media (prefers-reduced-motion: reduce) { animation: none; }
+  }
+
+  // ── Form panel ────────────────────────────────────────────
+  &__form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--pm-space-6);
+    min-height: 100vh;
+    background: var(--pm-bg);
+
+    @include m.lg {
+      background: rgba(11, 13, 23, 0.6);
+      max-width: 540px;
+    }
+  }
+
+  &__card {
+    width: 100%;
+    max-width: 400px;
+    @include m.glass;
+    padding: var(--pm-space-8);
+    animation: fadeUp 0.5s var(--pm-ease-out);
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pm-space-2);
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-3);
+    margin-bottom: var(--pm-space-6);
+    text-decoration: none;
+    transition: color var(--pm-duration-fast) ease;
+
+    &:hover { color: var(--pm-text); }
+  }
+
+  &__title {
+    font-family: var(--pm-font-heading);
+    font-size: var(--pm-text-3xl);
+    font-weight: 800;
+    margin-bottom: var(--pm-space-2);
+    @include m.gradient-text;
+  }
+
+  &__subtitle {
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-3);
+    margin-bottom: var(--pm-space-8);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-5);
+  }
+
+  &__error-banner {
+    display: flex;
+    align-items: center;
+    gap: var(--pm-space-3);
+    padding: var(--pm-space-3) var(--pm-space-4);
+    background: rgba(248, 113, 113, 0.08);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+    border-radius: var(--pm-radius-xs);
+    font-size: var(--pm-text-sm);
+    color: var(--pm-danger);
+    animation: fadeUp var(--pm-duration-normal) var(--pm-ease-out);
+  }
+
+  &__footer-text {
+    text-align: center;
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-3);
+    margin-top: var(--pm-space-6);
+
+    a {
+      color: var(--pm-violet);
+      font-weight: 600;
+      &:hover { color: var(--pm-cyan); }
+    }
+  }
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-12px) scale(1.03); }
+}
+

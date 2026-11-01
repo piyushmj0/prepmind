@@ -1,0 +1,82 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Toast Notification System
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-toast-container {
+  position: fixed;
+  bottom: var(--pm-space-6);
+  right: var(--pm-space-6);
+  z-index: var(--pm-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pm-space-3);
+  pointer-events: none;
+
+  @media (max-width: 480px) {
+    bottom: var(--pm-space-4);
+    right: var(--pm-space-4);
+    left: var(--pm-space-4);
+  }
+}
+
+.pm-toast {
+  @include m.glass(rgba(11, 13, 23, 0.9), 20px);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pm-space-3);
+  padding: var(--pm-space-4) var(--pm-space-5);
+  min-width: 300px;
+  max-width: 420px;
+  pointer-events: auto;
+  animation: slideInRight var(--pm-duration-normal) var(--pm-ease-out);
+  box-shadow: var(--pm-shadow-lg);
+
+  &--success { border-color: rgba(52, 211, 153, 0.3); }
+  &--error   { border-color: rgba(248, 113, 113, 0.3); }
+  &--warning { border-color: rgba(251, 191, 36, 0.3); }
+  &--info    { border-color: rgba(124, 92, 255, 0.3); }
+
+  &--exit {
+    animation: fadeOut var(--pm-duration-fast) ease forwards;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text);
+    margin-bottom: var(--pm-space-1);
+  }
+
+  &__message {
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-2);
+    line-height: var(--pm-leading-relaxed);
+  }
+
+  &__close {
+    flex-shrink: 0;
+    padding: var(--pm-space-1);
+    color: var(--pm-text-3);
+    cursor: pointer;
+    transition: color var(--pm-duration-fast) ease;
+    &:hover { color: var(--pm-text); }
+  }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateX(20px); }
+}
+

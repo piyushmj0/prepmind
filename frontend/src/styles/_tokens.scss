@@ -1,0 +1,106 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Design Tokens (_tokens.scss)
+// Single source of truth for all design values
+// ═══════════════════════════════════════════════════════════════
+
+:root {
+  // ── Background ────────────────────────────────────────────
+  --pm-bg:           #0B0D17;
+  --pm-bg-rgb:       11, 13, 23;
+
+  // ── Surfaces (glassmorphism) ──────────────────────────────
+  --pm-surface:      rgba(255, 255, 255, 0.04);
+  --pm-surface-2:    rgba(255, 255, 255, 0.07);
+  --pm-surface-3:    rgba(255, 255, 255, 0.10);
+  --pm-blur:         16px;
+  --pm-border:       rgba(255, 255, 255, 0.08);
+  --pm-border-hover: rgba(124, 92, 255, 0.35);
+
+  // ── Primary gradient ──────────────────────────────────────
+  --pm-violet:       #7C5CFF;
+  --pm-blue:         #3B82F6;
+  --pm-cyan:         #22D3EE;
+  --pm-gradient:     linear-gradient(135deg, var(--pm-violet), var(--pm-blue), var(--pm-cyan));
+  --pm-gradient-h:   linear-gradient(90deg, var(--pm-violet), var(--pm-blue), var(--pm-cyan));
+
+  // ── State colours ─────────────────────────────────────────
+  --pm-success:      #34D399;
+  --pm-warning:      #FBBF24;
+  --pm-danger:       #F87171;
+
+  // ── Text ──────────────────────────────────────────────────
+  --pm-text:         #F5F7FF;
+  --pm-text-2:       #A3AAC2;
+  --pm-text-3:       #6B7390;
+
+  // ── Radius ────────────────────────────────────────────────
+  --pm-radius-xs:    8px;
+  --pm-radius-sm:    12px;
+  --pm-radius-md:    16px;
+  --pm-radius-lg:    20px;
+  --pm-radius-full:  9999px;
+
+  // ── Spacing (8px grid) ────────────────────────────────────
+  --pm-space-1:      0.25rem;   //  4px
+  --pm-space-2:      0.5rem;    //  8px
+  --pm-space-3:      0.75rem;   // 12px
+  --pm-space-4:      1rem;      // 16px
+  --pm-space-5:      1.25rem;   // 20px
+  --pm-space-6:      1.5rem;    // 24px
+  --pm-space-8:      2rem;      // 32px
+  --pm-space-10:     2.5rem;    // 40px
+  --pm-space-12:     3rem;      // 48px
+  --pm-space-16:     4rem;      // 64px
+  --pm-space-20:     5rem;      // 80px
+  --pm-space-24:     6rem;      // 96px
+
+  // ── Typography ────────────────────────────────────────────
+  --pm-font-body:    'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --pm-font-heading: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --pm-font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  // Fluid type scale (clamp)
+  --pm-text-xs:      clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+  --pm-text-sm:      clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --pm-text-base:    clamp(0.875rem, 0.825rem + 0.25vw, 1rem);
+  --pm-text-lg:      clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --pm-text-xl:      clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  --pm-text-2xl:     clamp(1.25rem, 1rem + 1.25vw, 1.5rem);
+  --pm-text-3xl:     clamp(1.5rem, 1rem + 2.5vw, 2rem);
+  --pm-text-4xl:     clamp(2rem, 1.25rem + 3.75vw, 2.75rem);
+  --pm-text-5xl:     clamp(2.5rem, 1.5rem + 5vw, 3.75rem);
+  --pm-text-6xl:     clamp(3rem, 1.75rem + 6.25vw, 4.5rem);
+
+  // ── Line heights ──────────────────────────────────────────
+  --pm-leading-tight:   1.15;
+  --pm-leading-snug:    1.3;
+  --pm-leading-normal:  1.5;
+  --pm-leading-relaxed: 1.65;
+
+  // ── Transitions ───────────────────────────────────────────
+  --pm-ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --pm-ease-in-out:  cubic-bezier(0.65, 0, 0.35, 1);
+  --pm-duration-fast:   150ms;
+  --pm-duration-normal: 250ms;
+  --pm-duration-slow:   400ms;
+
+  // ── Shadows (coloured glows) ──────────────────────────────
+  --pm-shadow-sm:    0 2px 8px rgba(124, 92, 255, 0.08);
+  --pm-shadow-md:    0 4px 16px rgba(124, 92, 255, 0.12);
+  --pm-shadow-lg:    0 8px 32px rgba(124, 92, 255, 0.16);
+  --pm-shadow-xl:    0 16px 48px rgba(124, 92, 255, 0.24);
+
+  // ── Z-index scale ─────────────────────────────────────────
+  --pm-z-base:       0;
+  --pm-z-dropdown:   100;
+  --pm-z-sticky:     200;
+  --pm-z-overlay:    300;
+  --pm-z-modal:      400;
+  --pm-z-toast:      500;
+  --pm-z-splash:     600;
+
+  // ── Layout ────────────────────────────────────────────────
+  --pm-max-width:    1280px;
+  --pm-nav-height:   72px;
+}
+

@@ -1,0 +1,47 @@
+@use '../styles/mixins' as m;
+
+.pm-notfound {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pm-space-6);
+  background: var(--pm-bg);
+  background-image: radial-gradient(circle at 50% 40%, rgba(124, 92, 255, 0.12) 0%, transparent 60%);
+
+  &__card {
+    @include m.glass;
+    padding: var(--pm-space-12) var(--pm-space-8);
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    animation: scaleIn 0.4s var(--pm-ease-out);
+  }
+
+  &__code {
+    font-family: var(--pm-font-heading);
+    font-size: clamp(4rem, 10vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    @include m.gradient-text;
+    margin-bottom: var(--pm-space-4);
+  }
+
+  &__title {
+    font-size: var(--pm-text-2xl);
+    margin-bottom: var(--pm-space-3);
+  }
+
+  &__text {
+    color: var(--pm-text-2);
+    font-size: var(--pm-text-base);
+    margin-bottom: var(--pm-space-8);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--pm-space-4);
+    flex-wrap: wrap;
+  }
+}

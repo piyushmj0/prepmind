@@ -1,0 +1,105 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Footer Layout
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-footer {
+  border-top: 1px solid var(--pm-border);
+  padding: var(--pm-space-12) var(--pm-space-6);
+
+  @include m.md { padding: var(--pm-space-12) var(--pm-space-8); }
+
+  &__inner {
+    max-width: var(--pm-max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-8);
+  }
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-6);
+
+    @include m.md {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  &__brand {
+    max-width: 320px;
+  }
+
+  &__logo {
+    font-family: var(--pm-font-heading);
+    font-size: var(--pm-text-xl);
+    font-weight: 800;
+    @include m.gradient-text;
+    margin-bottom: var(--pm-space-3);
+  }
+
+  &__tagline {
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-3);
+    line-height: var(--pm-leading-relaxed);
+  }
+
+  &__links {
+    display: flex;
+    gap: var(--pm-space-10);
+    flex-wrap: wrap;
+  }
+
+  &__col-title {
+    font-size: var(--pm-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pm-text-2);
+    margin-bottom: var(--pm-space-4);
+  }
+
+  &__col-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-3);
+  }
+
+  &__link {
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-3);
+    text-decoration: none;
+    transition: color var(--pm-duration-fast) ease;
+    &:hover { color: var(--pm-text); }
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-space-3);
+    padding-top: var(--pm-space-6);
+    border-top: 1px solid var(--pm-border);
+
+    @include m.md {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &__copy {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+  }
+
+  &__built-with {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+
+    a { color: var(--pm-violet); &:hover { color: var(--pm-cyan); } }
+  }
+}
+

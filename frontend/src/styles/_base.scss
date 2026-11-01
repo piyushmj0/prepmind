@@ -1,0 +1,130 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Global Base Styles (_base.scss)
+// ═══════════════════════════════════════════════════════════════
+@use 'tokens';
+@use 'mixins' as m;
+@use 'animations';
+
+// ── Font imports ────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+// ── Reset ───────────────────────────────────────────────────
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  @include m.reduced-motion {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--pm-font-body);
+  font-size: var(--pm-text-base);
+  line-height: var(--pm-leading-normal);
+  color: var(--pm-text);
+  background-color: var(--pm-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+
+  // Ambient radial glows
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124, 92, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(34, 211, 238, 0.04) 0%, transparent 50%);
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+// ── Headings ────────────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--pm-font-heading);
+  font-weight: 700;
+  line-height: var(--pm-leading-tight);
+  color: var(--pm-text);
+}
+
+// ── Links ───────────────────────────────────────────────────
+a {
+  color: var(--pm-violet);
+  text-decoration: none;
+  transition: color var(--pm-duration-fast) ease;
+
+  &:hover { color: var(--pm-cyan); }
+  &:focus-visible { @include m.focus-ring; }
+}
+
+// ── Buttons base ────────────────────────────────────────────
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+
+  &:focus-visible { @include m.focus-ring; }
+  &:disabled { cursor: not-allowed; opacity: 0.5; }
+}
+
+// ── Inputs base ─────────────────────────────────────────────
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--pm-text);
+
+  &:focus-visible { @include m.focus-ring; }
+  &::placeholder { color: var(--pm-text-3); }
+}
+
+// ── Images ──────────────────────────────────────────────────
+img, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// ── Lists ───────────────────────────────────────────────────
+ul, ol { list-style: none; }
+
+// ── Selection ───────────────────────────────────────────────
+::selection {
+  background: rgba(124, 92, 255, 0.3);
+  color: #fff;
+}
+
+// ── Scrollbar ───────────────────────────────────────────────
+body {
+  @include m.styled-scrollbar;
+}
+
+// ── Skip to main (accessibility) ────────────────────────────
+.skip-to-main {
+  @include m.sr-only;
+  &:focus {
+    position: fixed;
+    top: var(--pm-space-4);
+    left: var(--pm-space-4);
+    z-index: 9999;
+    width: auto;
+    height: auto;
+    padding: var(--pm-space-3) var(--pm-space-6);
+    clip: auto;
+    background: var(--pm-violet);
+    color: #fff;
+    border-radius: var(--pm-radius-xs);
+    font-weight: 600;
+  }
+}
+

@@ -1,0 +1,112 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Button Component (Button.scss)
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pm-space-2);
+  font-family: var(--pm-font-body);
+  font-weight: 600;
+  border-radius: var(--pm-radius-full);
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  transition: all var(--pm-duration-normal) var(--pm-ease-out);
+  position: relative;
+  overflow: hidden;
+
+  &:focus-visible { @include m.focus-ring; }
+  &:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+  // ── Sizes ─────────────────────────────────────────────────
+  &--sm {
+    padding: var(--pm-space-2) var(--pm-space-4);
+    font-size: var(--pm-text-sm);
+  }
+  &--md {
+    padding: var(--pm-space-3) var(--pm-space-6);
+    font-size: var(--pm-text-base);
+  }
+  &--lg {
+    padding: var(--pm-space-4) var(--pm-space-8);
+    font-size: var(--pm-text-lg);
+  }
+
+  // ── Variants ──────────────────────────────────────────────
+
+  // Primary: gradient CTA
+  &--primary {
+    background: var(--pm-gradient-h);
+    background-size: 200% auto;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(124, 92, 255, 0.25);
+
+    @include m.hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 92, 255, 0.35);
+      background-position: right center;
+    }
+    &:active { transform: translateY(0); }
+  }
+
+  // Ghost: transparent with border
+  &--ghost {
+    background: transparent;
+    color: var(--pm-text);
+    border: 1px solid var(--pm-border);
+
+    @include m.hover {
+      background: var(--pm-surface);
+      border-color: var(--pm-border-hover);
+    }
+  }
+
+  // Secondary: surface background
+  &--secondary {
+    background: var(--pm-surface-2);
+    color: var(--pm-text);
+    border: 1px solid var(--pm-border);
+
+    @include m.hover {
+      background: var(--pm-surface-3);
+      border-color: var(--pm-border-hover);
+      transform: translateY(-1px);
+    }
+  }
+
+  // Danger
+  &--danger {
+    background: rgba(248, 113, 113, 0.12);
+    color: var(--pm-danger);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+
+    @include m.hover {
+      background: rgba(248, 113, 113, 0.2);
+    }
+  }
+
+  // ── Loading spinner inside button ─────────────────────────
+  &__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  // ── Full width ────────────────────────────────────────────
+  &--full {
+    width: 100%;
+  }
+
+  // ── Icon-only ─────────────────────────────────────────────
+  &--icon {
+    padding: var(--pm-space-2);
+    border-radius: var(--pm-radius-xs);
+  }
+}
+

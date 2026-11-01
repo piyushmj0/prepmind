@@ -1,0 +1,104 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – FileUpload Component
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-file-upload {
+  &__dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pm-space-3);
+    padding: var(--pm-space-8) var(--pm-space-6);
+    border: 2px dashed var(--pm-border);
+    border-radius: var(--pm-radius-md);
+    background: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all var(--pm-duration-normal) var(--pm-ease-out);
+    text-align: center;
+
+    &:hover, &--active {
+      border-color: var(--pm-violet);
+      background: rgba(124, 92, 255, 0.05);
+    }
+  }
+
+  &__icon {
+    color: var(--pm-text-3);
+    transition: color var(--pm-duration-fast) ease;
+
+    .pm-file-upload__dropzone:hover & {
+      color: var(--pm-violet);
+    }
+  }
+
+  &__text {
+    font-size: var(--pm-text-sm);
+    color: var(--pm-text-2);
+
+    strong {
+      color: var(--pm-violet);
+      font-weight: 600;
+    }
+  }
+
+  &__hint {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+  }
+
+  &__file-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pm-space-2);
+    padding: var(--pm-space-2) var(--pm-space-4);
+    background: rgba(124, 92, 255, 0.1);
+    border: 1px solid rgba(124, 92, 255, 0.25);
+    border-radius: var(--pm-radius-full);
+    margin-top: var(--pm-space-3);
+    animation: fadeUp var(--pm-duration-normal) var(--pm-ease-out);
+  }
+
+  &__file-icon {
+    color: var(--pm-violet);
+  }
+
+  &__file-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__file-name {
+    font-size: var(--pm-text-sm);
+    font-weight: 500;
+    color: var(--pm-text);
+    @include m.truncate;
+    max-width: 200px;
+  }
+
+  &__file-size {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-text-3);
+  }
+
+  &__remove {
+    padding: var(--pm-space-1);
+    color: var(--pm-text-3);
+    border-radius: 50%;
+    transition: all var(--pm-duration-fast) ease;
+
+    &:hover {
+      color: var(--pm-danger);
+      background: rgba(248, 113, 113, 0.1);
+    }
+  }
+
+  &__error {
+    font-size: var(--pm-text-xs);
+    color: var(--pm-danger);
+    margin-top: var(--pm-space-2);
+  }
+}
+

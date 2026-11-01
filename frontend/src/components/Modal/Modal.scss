@@ -1,0 +1,62 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Modal Component
+// ═══════════════════════════════════════════════════════════════
+@use '../../styles/mixins' as m;
+
+.pm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--pm-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: var(--pm-space-4);
+  animation: fadeIn var(--pm-duration-fast) ease;
+}
+
+.pm-modal {
+  @include m.glass(rgba(11, 13, 23, 0.95), 24px);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: scaleIn var(--pm-duration-normal) var(--pm-ease-out);
+  @include m.styled-scrollbar;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--pm-space-5) var(--pm-space-6);
+    border-bottom: 1px solid var(--pm-border);
+  }
+
+  &__title {
+    font-size: var(--pm-text-lg);
+    font-weight: 700;
+  }
+
+  &__close {
+    padding: var(--pm-space-2);
+    color: var(--pm-text-3);
+    border-radius: var(--pm-radius-xs);
+    transition: all var(--pm-duration-fast) ease;
+
+    &:hover { color: var(--pm-text); background: var(--pm-surface-2); }
+  }
+
+  &__body {
+    padding: var(--pm-space-6);
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--pm-space-3);
+    padding: var(--pm-space-4) var(--pm-space-6);
+    border-top: 1px solid var(--pm-border);
+  }
+}
+

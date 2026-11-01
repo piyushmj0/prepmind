@@ -1,0 +1,49 @@
+// ═══════════════════════════════════════════════════════════════
+// PrepMind – Badge Component
+// ═══════════════════════════════════════════════════════════════
+
+.pm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pm-space-1);
+  padding: var(--pm-space-1) var(--pm-space-3);
+  border-radius: var(--pm-radius-full);
+  font-size: var(--pm-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+
+  &--violet {
+    background: rgba(124, 92, 255, 0.15);
+    color: var(--pm-violet);
+    border: 1px solid rgba(124, 92, 255, 0.3);
+  }
+  &--cyan {
+    background: rgba(34, 211, 238, 0.12);
+    color: var(--pm-cyan);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+  }
+  &--success {
+    background: rgba(52, 211, 153, 0.12);
+    color: var(--pm-success);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+  }
+  &--warning {
+    background: rgba(251, 191, 36, 0.12);
+    color: var(--pm-warning);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+  }
+  &--danger {
+    background: rgba(248, 113, 113, 0.12);
+    color: var(--pm-danger);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+  }
+  &--neutral {
+    background: var(--pm-surface-2);
+    color: var(--pm-text-2);
+    border: 1px solid var(--pm-border);
+  }
+}
+
