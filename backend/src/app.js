@@ -38,9 +38,12 @@ app.use(
 // ── Health check (useful for uptime monitors) ─────────────────────────────────
 app.get("/health", (_req, res) => res.json({ status: "ok" }))
 
-// ── Routes ────────────────────────────────────────────────────────────────────
+// ── Routes (supports both /api/* and /* for frontend compatibility) ──────────
 app.use("/api/auth", authRouter)
+app.use("/auth",     authRouter)
+
 app.use("/api/ai",   aiRouter)
+app.use("/ai",       aiRouter)
 
 // ── Global error handler ──────────────────────────────────────────────────────
 // eslint-disable-next-line no-unused-vars
