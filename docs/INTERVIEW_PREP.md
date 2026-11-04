@@ -579,3 +579,4 @@ graph TD
 - **Redis Max Memory:** 256 MB with `allkeys-lru` eviction
 - **Single Query Benchmark:** ~25–33 ms
 - **Parallel Query Benchmark (5 concurrent):** ~199 ms
+
