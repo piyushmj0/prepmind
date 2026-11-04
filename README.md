@@ -1,138 +1,117 @@
-# PrepMind
+# PrepMind — AI-Powered Interview Strategist
 
-**Live Demo:** [https://prepmind2001.netlify.app](https://prepmind2001.netlify.app)
+> Upload your resume + paste a job description → get a personalized interview strategy powered by Gemini AI.
 
-PrepMind is a full-stack AI-powered interview preparation application. It uses the Gemini API to generate personalized interview questions and a preparation plan based on a user's resume and target job description.
+**Live App:** [https://prepmind2001.netlify.app](https://prepmind2001.netlify.app)
+
+---
 
 ## Tech Stack
 
-- **Frontend**: React 19, Vite, React Router, SCSS, Axios
-- **Backend**: Node.js, Express, MongoDB, Mongoose, JSON Web Tokens (JWT) for authentication
-- **AI Integration**: `@google/genai` (Gemini Flash 2.0)
+### Frontend
+- React 19 + Vite + React Router
+- SCSS with CSS custom properties (design token system)
+- Three.js / @react-three/fiber — 3D animated hero
+- Framer Motion — scroll-triggered animations
+- Lucide React — icons
+- Axios — API client
+- Deployed on **Netlify** (auto-deploy from GitHub `main`)
+
+### Backend
+- Node.js + Express
+- MongoDB Atlas — user data & interview reports (sub-200ms indexed queries)
+- Redis — rate limiting + 6-hour report caching
+- Gemini AI (`@google/genai`) — report generation
+- JWT auth via HTTP-only cookies
+- Deployed on **AWS EC2** via **Docker Compose**
 
 ---
 
-## System Architecture
+## Architecture
 
-```mermaid
-flowchart TD
-    %% Define styles
-    classDef frontend fill:#3e3e3e,stroke:#c77dff,stroke-width:2px,color:#fff;
-    classDef backend fill:#2c2c2c,stroke:#38ef7d,stroke-width:2px,color:#fff;
-    classDef database fill:#1a1a1a,stroke:#fca311,stroke-width:2px,color:#fff;
-    classDef external fill:#4a4e69,stroke:#ff5e62,stroke-width:2px,color:#fff;
-
-    %% Nodes
-    User(("User 🧑‍💻"))
-    
-    subgraph Client [Frontend - React/Vite]
-        UI["React UI (Dashboard, Auth, Landing)"]:::frontend
-        API_Service["Axios Interceptors & Services"]:::frontend
-    end
-    
-    subgraph Server [Backend - Node.js/Express]
-        Router["Express Routes"]:::backend
-        Auth["Auth Controller (JWT & OTP)"]:::backend
-        AI["AI Controller (Multer + PDF Parse)"]:::backend
-    end
-    
-    subgraph Data [Data Layer]
-        DB[("MongoDB Database")]:::database
-    end
-    
-    subgraph External [External APIs]
-        Gemini["Google Gemini Flash 2.0"]:::external
-        SMTP["Email Provider (Gmail SMTP)"]:::external
-    end
-
-    %% Relationships
-    User -- "Interacts" --> UI
-    UI -- "State & Logic" --> API_Service
-    API_Service -- "REST API Calls\n(Cookies/FormData)" --> Router
-    
-    Router -- "/api/auth/*" --> Auth
-    Router -- "/api/ai/*" --> AI
-    
-    Auth -- "Read/Write Users\n& Blacklist" --> DB
-    AI -- "Save Interview Reports" --> DB
-    
-    Auth -- "Send OTP" --> SMTP
-    AI -- "Generate Questions" --> Gemini
 ```
-
----
-
-## Getting Started
-
-Follow these instructions to run the project locally.
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18+)
-- [MongoDB](https://www.mongodb.com/) (Local or Atlas Cluster)
-- A Google Gemini API Key
-
-### 1. Clone the repository
-\`\`\`bash
-git clone <your-repo-url>
-cd prepmind
-\`\`\`
-
-### 2. Backend Setup
-```bash
-cd backend
-npm install
+Browser (Netlify CDN)
+  └── /api/* proxy ──→ AWS EC2 (15.135.137.119:3000)
+                          ├── Node.js Backend (port 3000)
+                          └── Redis (port 6379)
+                                    │
+                              MongoDB Atlas (cloud)
 ```
-
-Create a `.env` file in the `backend` folder based on the `.env.example`:
-```env
-PORT=3000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_super_secret_jwt_key
-GOOGLE_GENAI_API_KEY=your_gemini_api_key
-EMAIL_USER=your_gmail_address@gmail.com
-EMAIL_PASS=your_gmail_app_password
-```
-
-> **Note on Gmail SMTP**: To use your Gmail account for sending OTPs, you must enable 2-Step Verification on your Google Account and generate an **App Password**. Use that 16-character App Password for `EMAIL_PASS`, not your regular login password.
-
-Start the backend development server:
-```bash
-npm run dev
-```
-The backend will run on `http://localhost:3000`.
-
-### 3. Frontend Setup
-Open a **new terminal** and run:
-\`\`\`bash
-cd frontend
-npm install
-\`\`\`
-
-Create a `.env` file in the `frontend` folder:
-\`\`\`env
-VITE_API_URL=http://localhost:3000/api
-\`\`\`
-
-Start the frontend development server:
-\`\`\`bash
-npm run dev
-\`\`\`
-The frontend will run on `http://localhost:5173`.
 
 ---
 
 ## Features
 
-- **Landing Page**: A clean, aesthetic, and modern landing page introducing the PrepMind experience.
-- **User Authentication**: Secure registration and login using HTTP-only cookies and JWTs.
-- **Profile Management**: An integrated Edit Profile section allowing users to securely update their display name and password.
-- **OTP Password Reset**: An advanced security flow that uses email-based One-Time Passwords (OTP) for verifying identity before resetting a password.
-- **AI Report Generation**: Submit your target job description and directly upload your resume (PDF/Word files supported) to receive a tailored Match Score, Technical Questions, Behavioral Questions, Skill Gaps, and a multi-day Preparation Plan.
-- **Responsive Dashboard**: A sleek, rich dark-themed UI featuring glassmorphism, dynamic gradients, sticky navigation, and a user profile dropdown menu.
+| Feature | Description |
+|---------|-------------|
+| Match Score | % compatibility between resume and job |
+| Technical Questions | Role-specific interview questions |
+| Behavioral Questions | Soft-skill situational questions |
+| Skill Gap Analysis | Missing skills to target |
+| Day-wise Prep Plan | Multi-day structured study plan |
+| Secure Auth | JWT + HTTP-only cookie sessions |
+
+---
+
+## Local Development
+
+### Prerequisites
+- Node.js 22+
+- Docker Desktop
+
+### Frontend
+```bash
+cd frontend
+npm install --legacy-peer-deps
+npm run dev
+```
+
+### Backend + Redis (Docker)
+```bash
+# Create backend/.env with your credentials (see .env.example)
+docker compose up --build
+```
+
+Backend runs on `http://localhost:3000`  
+Frontend dev server on `http://localhost:5173`
+
+---
+
+## Environment Variables
+
+Create `backend/.env`:
+```env
+MONGO_URI=mongodb+srv://...
+JWT_SECRET=...
+GOOGLE_GENAI_API_KEY=...
+EMAIL_USER=...
+EMAIL_PASS=...
+FRONTEND_URL=https://prepmind2001.netlify.app
+REDIS_URL=redis://redis:6379
+PORT=3000
+```
+
+---
 
 ## Deployment
 
-- **Frontend**: Can be easily deployed to [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/). Don't forget to set the `VITE_API_URL` environment variable.
-- **Backend**: Can be deployed to [Render](https://render.com/), [Railway](https://railway.app/), or [Heroku](https://www.heroku.com/). Ensure you configure the environment variables correctly.
-- **Database**: MongoDB Atlas is recommended for a free, hosted database solution.
+| Layer | Platform | Method |
+|-------|----------|--------|
+| Frontend | Netlify | Auto-deploy on `git push` to `main` |
+| Backend | AWS EC2 (t2.micro) | Docker Compose (`restart: always`) |
+| Database | MongoDB Atlas | Cloud managed |
+| Cache | Redis 7 (Docker) | Co-located with backend |
 
+---
+
+## Performance
+
+- MongoDB connection pool: min 10 / max 50 sockets
+- Redis report cache: 6-hour TTL
+- Indexed queries on `email`, `token`, `userId + createdAt`
+- Avg query time: ~25-33ms (single), ~199ms (5 parallel)
+- Frontend: lazy-loaded routes, 3D canvas paused off-screen, DPR capped at 1.5
+
+---
+
+Built with ❤️ using React, Node.js, Docker & AWS
