@@ -114,4 +114,4 @@ PORT=3000
 
 ---
 
-Built with ❤️ using React, Node.js, Docker & AWS
+Engineered end-to-end by [Piyush](https://github.com/piyushmj0) — from AI-powered report generation to containerized cloud infrastructure.
