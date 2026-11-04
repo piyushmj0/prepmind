@@ -1,7 +1,18 @@
 import axios from 'axios'
 
+const getAuthBaseUrl = () => {
+    const envUrl = (import.meta.env.VITE_API_URL || '').trim()
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:' && envUrl.startsWith('http://')) {
+        return '/auth'
+    }
+    if (!envUrl || envUrl === '/api') {
+        return '/auth'
+    }
+    return `${envUrl.replace(/\/+$/, '')}/auth`
+}
+
 const api = axios.create({
-    baseURL: `${import.meta.env.VITE_API_URL}/auth`,
+    baseURL: getAuthBaseUrl(),
     withCredentials: true
 })
 

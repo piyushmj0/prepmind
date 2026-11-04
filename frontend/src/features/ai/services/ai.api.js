@@ -1,7 +1,18 @@
 import axios from 'axios';
 
+const getAiBaseUrl = () => {
+    const envUrl = (import.meta.env.VITE_API_URL || '').trim();
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:' && envUrl.startsWith('http://')) {
+        return '/ai';
+    }
+    if (!envUrl || envUrl === '/api') {
+        return '/ai';
+    }
+    return `${envUrl.replace(/\/+$/, '')}/ai`;
+};
+
 const api = axios.create({
-    baseURL: `${import.meta.env.VITE_API_URL}/ai`,
+    baseURL: getAiBaseUrl(),
     withCredentials: true
 });
 
