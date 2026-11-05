@@ -1,2 +1,4 @@
-/*    /index.html   200
-
+/api/*  http://15.135.137.119:3000/api/:splat  200!
+/auth/* http://15.135.137.119:3000/auth/:splat 200!
+/ai/*   http://15.135.137.119:3000/ai/:splat   200!
+/*      /index.html                            200
